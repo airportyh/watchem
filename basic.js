@@ -25,5 +25,5 @@ fw.on('change', function(filepath){
 })
 
 process.nextTick(function(){
-  console.log('watching...')
+  console.log('Watching...')
 })
