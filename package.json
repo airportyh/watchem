@@ -1,0 +1,19 @@
+{
+  "name": "watchem",
+  "version": "0.0.0",
+  "description": "A smart directory watcher cli utility.",
+  "main": "cli.js",
+  "dependencies": {
+    "fireworm": "~0.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "watcher",
+    "fs"
+  ],
+  "author": "Toby Ho",
+  "license": "MIT"
+}
