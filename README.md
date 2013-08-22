@@ -18,4 +18,4 @@ This command will watch the `Makefile`, and any `.c` or `.h`files within the cur
 Thanks
 ------
 
-Watchem uses [blessed](https://github.com/chjj/blessed) to build its user interface.
+Watchem uses [blessed](https://github.com/chjj/blessed) to build its user interface. It uses [fireworm](https://github.com/airportyh/fireworm) for file watching.
