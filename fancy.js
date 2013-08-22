@@ -1,15 +1,40 @@
 #! /usr/bin/env node
 
-var screen = require('charm')(process)
+require('colors')
+var blessed = require('blessed')
+var program = blessed.program()
 var fs = require('fs')
 var fireworm = require('fireworm')
 var exec = require('child_process').exec
 var path = require('path')
 
+
+var screen = blessed.screen()
 var patterns = process.argv[2]
 var command = process.argv[3]
 var basePath = process.cwd()
 var fw = fireworm(basePath)
+
+var header = blessed.box({
+  top: 0,
+  left: 1,
+  content: 'Re-run ' + command.green + ' when ' + patterns.magenta + ' change'
+})
+
+screen.append(header)
+
+var outputPanel = blessed.box({
+  top: 1,
+  left: 0,
+  width: '100%',
+  height: '99%',
+  border: {
+    type: 'line'
+  }
+})
+
+
+screen.append(outputPanel)
 
 patterns = patterns.split(',')
 fw.add.apply(fw, patterns)
@@ -18,40 +43,36 @@ fw.on('change', function(filepath){
   run()
 })
 
+var buffer = ''
+
 function run(){
-  screen.erase('screen')
+  buffer = ''
+  updateScreen()
   var p = exec(command)
   p.stdout.on('data', function(data){
-    screen.position(1, 1)
-    screen.write(data + '')
+    buffer += data + ''
+    updateScreen()
   })
   p.stderr.on('data', function(data){
-    screen.position(1, 0)
-    screen.write(data + '')
+    buffer += (data + '').red
+    updateScreen()
   })
   p.on('error', function(){})
 }
 
-'SIGINT SIGTERM SIGHUP'.split(' ')
-  .forEach(function(evt){
-  process.on(evt, function(){
-    exitClean()
-  })
-})
-
-function exitClean(){
-  screen.display('reset')
-  screen.erase('screen')
-  screen.position(0, 0)
-  screen.cursor(true)
-  process.stdin.setRawMode(false)
-  screen.destroy()
-  process.exit()
+function updateScreen(){
+  outputPanel.setContent(buffer)
+  screen.render()
 }
 
-screen.on('data', function(){
-  exitClean()
+program.on('keypress', function(ch, key){
+  if (key.name === 'q'){
+    program.clear();
+    program.showCursor();
+    process.exit(0);
+  }
 })
 
-screen.reset()
+screen.render()
+
 run()
