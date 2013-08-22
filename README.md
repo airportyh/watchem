@@ -8,6 +8,13 @@ Screencast
 
 Watch it in action in this [screencast (3:22)](http://www.screenr.com/VEXH).
 
+Install
+-------
+
+First you need [Node](http://nodejs.org/). Then
+
+    npm install watchem -g
+
 Usage
 -----
 
