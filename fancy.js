@@ -65,13 +65,15 @@ function updateScreen(){
   screen.render()
 }
 
-program.on('keypress', function(ch, key){
-  if (key.name === 'q'){
-    program.clear();
-    program.showCursor();
-    process.exit(0);
-  }
+screen.key(['escape', 'q', 'C-c'], function(ch, key) {
+  program.clear();
+  program.showCursor();
+  process.exit(0);
 })
+
+function exit(){
+  
+}
 
 screen.render()
 
